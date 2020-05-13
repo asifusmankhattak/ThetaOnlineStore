@@ -35,10 +35,20 @@ namespace ThetaOnlineStore.Controllers
 
             return View();
         }
-        public IActionResult Alluser()
+        public IActionResult Alluser(string SearchQuery)
         {
-            IList<SystemUser> allp = ORM.SystemUser.ToList<SystemUser>();
-            return View(allp);
+            if (TempData["Message"]!=null){
+                ViewBag.Message = TempData["Message"].ToString();
+             }
+            if (string.IsNullOrEmpty(SearchQuery))
+            {
+                //IList<SystemUser> allp = ORM.SystemUser.ToList<SystemUser>();
+                return View(ORM.SystemUser.ToList<SystemUser>());
+            } else
+            {
+                return View(ORM.SystemUser.Where(a=>a.UserName.Contains(SearchQuery)).ToList<SystemUser>());
+
+            }
 
         }
         public async Task<IActionResult> Detail(int id)
@@ -70,6 +80,7 @@ namespace ThetaOnlineStore.Controllers
             {
                 ORM.SystemUser.Remove(p);
                 ORM.SaveChanges();
+                TempData["Message"] = p.UserName + "Deleted Successfully";
                 return RedirectToAction("Alluser");
             }
             return View();
