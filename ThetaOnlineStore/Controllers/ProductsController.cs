@@ -19,10 +19,26 @@ namespace ThetaOnlineStore.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string SearchQuery)
         {
-            return View(await _context.Product.ToListAsync());
+            if (TempData["Message"] != null)
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+            }
+            if (string.IsNullOrEmpty(SearchQuery))
+            {
+                //IList<SystemUser> allp = ORM.SystemUser.ToList<SystemUser>();
+                return View(await _context.Product.ToListAsync());
+
+            }
+            else
+            {
+                return View(_context.Product.Where(a => a.Name.Contains(SearchQuery)).ToList<Product>());
+
+            }
+            //  return View(await _context.Category.ToListAsync());
         }
+
 
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -59,6 +75,7 @@ namespace ThetaOnlineStore.Controllers
             {
                 _context.Add(product);
                 await _context.SaveChangesAsync();
+                ViewBag.Message = product.Name + " is Successfully Registered";
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
@@ -141,6 +158,7 @@ namespace ThetaOnlineStore.Controllers
             var product = await _context.Product.FindAsync(id);
             _context.Product.Remove(product);
             await _context.SaveChangesAsync();
+            TempData["Message"] = product.Name + "Deleted Successfully";
             return RedirectToAction(nameof(Index));
         }
 
