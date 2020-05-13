@@ -1,0 +1,140 @@
+﻿@model IEnumerable<ThetaOnlineStore.Models.Category>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>All Categories: @Model.Count()</h1>
+<form action="/SystemUsers/Alluser" method="post">
+    <input type="text" name="SearchQuery" id="SearchQuery" value="" />
+    <input type="submit" value="Search" class="btn btn-success fa fa-search" />
+</form>
+
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="toast" data-delay="10000">
+        <div class="toast-header">
+            <strong class="mr-auto">Alert!</strong>
+            <small>1 Record</small>
+            <button class="ml-2 mb-1 close" aria-label="Close" type="button" data-dismiss="toast">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="toast-body">
+            Record is Succeffully Deleted
+        </div>
+    </div>
+}
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table table-bordered table-hover table-striped table-responsive-sm">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Picture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LongDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedBy)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+
+        {
+            String Statusclass = "";
+            if (item.Status != "active")
+            {
+                Statusclass = "table-danger";
+            }
+
+
+            <tr class="col-md-4 @Statusclass">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Picture)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShortDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LongDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifiedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModifiedBy)
+                </td>
+                <td>
+                    <a href="/Categories/Details?id=@item.Id" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
+                    <a href="/Categories/Edit?id=@item.Id" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt"></i></a>
+                    <a href="" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal-@item.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
+
+                    <div class="modal fade" id="myModal-@item.Id" tabindex="-1" role="dialog" aria-labelledby="myModal-label">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModal-label">Alert</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                                </div>
+                                <div class="modal-body">
+                                    <p>Do You Realy Want to delete this categoty-@item.Name</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                    <a href="/Categories/Delete?id=@item.Id" type="button" class="btn btn-primary">Yes Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+
+    <script>
+        $(function () {
+            $('.toast').toast("show");
+            $("#ModifiedDate").datepicker();
+        });
+    </script>
+}
