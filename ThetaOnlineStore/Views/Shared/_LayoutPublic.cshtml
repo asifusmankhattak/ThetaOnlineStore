@@ -6,10 +6,17 @@
     <title>@ViewData["Title"] - ThetaOnlineStore</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <style>
+        .ui-menu {
+            width: 180px;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-success border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ThetaOnlineStore</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -32,7 +39,41 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            @RenderBody()
+            <div class="row">
+                <div class="col-md-3 btn btn-block bg-success">
+                    <ul id="menu" class="bg-success">
+                        <li class="ui-state-disabled"><div><a>Dashboard</a></div></li>
+
+                        <li>
+                            <div>Categories</div>
+                            <ul>
+                                <li><div><a href="/Categories/Create">Add New Category</a> </div></li>
+                                <li><div><a href="/Categories/Index">Search Categories</a></div></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <div>Products</div>
+                            <ul>
+                                <li><div><a href="/Products/Create">Add New Product</a></div></li>
+                                <li><div><a href="/Products/Index">Search Products</a></div></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <div>Users</div>
+                            <ul>
+                                <li><div><a href="/SystemUsers/Register">Add New System User</a></div></li>
+                                <li><div><a href="/SystemUsers/Alluser">Search System Users</a></div></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="col-md-9">
+                    @RenderBody()
+                </div>
+            </div>
         </main>
     </div>
 
@@ -47,6 +88,13 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#menu").menu();
+        });
+    </script>
     @RenderSection("Scripts", required: false)
+
+
 </body>
 </html>

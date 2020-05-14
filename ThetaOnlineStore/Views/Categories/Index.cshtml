@@ -101,10 +101,11 @@
                     @Html.DisplayFor(modelItem => item.ModifiedBy)
                 </td>
                 <td>
+                    <div>
                     <a href="/Categories/Details?id=@item.Id" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
                     <a href="/Categories/Edit?id=@item.Id" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt"></i></a>
                     <a href="" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal-@item.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
-
+                        </div>
                     <div class="modal fade" id="myModal-@item.Id" tabindex="-1" role="dialog" aria-labelledby="myModal-label">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
