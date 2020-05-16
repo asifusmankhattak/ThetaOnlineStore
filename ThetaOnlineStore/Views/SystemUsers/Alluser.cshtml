@@ -28,7 +28,7 @@
 
 
 <div class="row">
-    <table class="table table-bordered table-hover table-striped table-responsive-sm">
+    <table class="table table-bordered table-hover table-striped table-responsive-sm" id="myTable">
         <thead>
             <tr>
                 <th>
@@ -152,7 +152,8 @@
     <script>
         $(function () {
             $('.toast').toast("show");
-             $("#ModifiedDate").datepicker();
+            $("#ModifiedDate").datepicker();
+             $('#myTable').DataTable();
         });
     </script>
 }
