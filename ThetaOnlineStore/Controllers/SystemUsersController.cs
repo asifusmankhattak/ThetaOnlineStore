@@ -25,13 +25,17 @@ namespace ThetaOnlineStore.Controllers
 
 
         {
-           
-                ORM.SystemUser.Add(user);
-                await ORM.SaveChangesAsync();
-                // ORM.SaveChanges();
-                ViewBag.Message = user.UserName + "User is Successfully Registered";
+            if (TempData["Message"] != null)
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+            }
 
-           
+            ORM.SystemUser.Add(user);
+                await ORM.SaveChangesAsync();
+            // ORM.SaveChanges();
+            TempData["Message"] = user.UserName + "Successfully Registered";
+
+
 
             return View();
         }
@@ -73,18 +77,47 @@ namespace ThetaOnlineStore.Controllers
 
 
         }
-        public IActionResult Delete(int id)
+        //public IActionResult Delete(int id)
+        //{
+        //    SystemUser p = ORM.SystemUser.Find(id);
+        //    if (p != null)
+        //    {
+        //        ORM.SystemUser.Remove(p);
+        //        ORM.SaveChanges();
+        //        TempData["Message"] = p.UserName + "Deleted Successfully";
+        //        return RedirectToAction("Alluser");
+        //    }
+        //    return View();
+        //}
+
+        public string Delete(int id)
         {
-            SystemUser p = ORM.SystemUser.Find(id);
-            if (p != null)
-            {
-                ORM.SystemUser.Remove(p);
-                ORM.SaveChanges();
-                TempData["Message"] = p.UserName + "Deleted Successfully";
-                return RedirectToAction("Alluser");
+            try
+            {   
+                SystemUser u = ORM.SystemUser.Find(id);
+
+                if (u != null)
+                {
+                    ORM.SystemUser.Remove(u);
+                    ORM.SaveChanges();
+                    TempData["Message"] = u.UserName + "Deleted Successfully";
+                    return "1";
+                }
             }
-            return View();
+            catch
+            {
+                return "0";
+            }
+            finally
+            {
+
+            }
+
+
+            return "0";
         }
+
+
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -95,7 +128,7 @@ namespace ThetaOnlineStore.Controllers
 
         }
         [HttpPost]
-        public IActionResult Edit(SystemUser p)
+        public IActionResult Edit(SystemUser u)
         {
             //SystemUsers p= ORM.SystemUsers.FirstOrDefault(abc => abc.Id==id)
             // SystemUsers p1 = ORM.SystemUsers.Find(id
@@ -108,9 +141,14 @@ namespace ThetaOnlineStore.Controllers
             // }
             // else
             // {
-
-            ORM.SystemUser.Update(p);
+            if (TempData["Message"] != null)
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+            }
+            ORM.SystemUser.Update(u);
             ORM.SaveChanges();
+
+            TempData["Message"] = u.UserName + "Updated Successfully";
             return RedirectToAction("Alluser");
 
 

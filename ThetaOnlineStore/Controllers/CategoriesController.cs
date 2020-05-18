@@ -11,11 +11,11 @@ namespace ThetaOnlineStore.Controllers
 {
     public class CategoriesController : Controller
     {
-        private readonly RAMADAN20Context _context;
+        private readonly RAMADAN20Context ORM;
 
         public CategoriesController(RAMADAN20Context context)
         {
-            _context = context;
+            ORM = context;
         }
 
         // GET: Categories
@@ -28,15 +28,15 @@ namespace ThetaOnlineStore.Controllers
             if (string.IsNullOrEmpty(SearchQuery))
             {
                 //IList<SystemUser> allp = ORM.SystemUser.ToList<SystemUser>();
-                return View(await _context.Category.ToListAsync());
+                return View(await ORM.Category.ToListAsync());
 
             }
             else
             {
-                return View(_context.Category.Where(a => a.Name.Contains(SearchQuery)).ToList<Category>());
+                return View(ORM.Category.Where(a => a.Name.Contains(SearchQuery)).ToList<Category>());
 
             }
-          //  return View(await _context.Category.ToListAsync());
+          //  return View(await ORM.Category.ToListAsync());
         }
 
         // GET: Categories/Details/5
@@ -47,7 +47,7 @@ namespace ThetaOnlineStore.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Category
+            var category = await ORM.Category
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (category == null)
             {
@@ -70,11 +70,15 @@ namespace ThetaOnlineStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Picture,Status,ShortDescription,LongDescription,CreateDate,CreatedBy,ModifiedDate,ModifiedBy")] Category category)
         {
+            if (TempData["Message"] != null)
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+            }
             if (ModelState.IsValid)
             {
-                _context.Add(category);
-                await _context.SaveChangesAsync();
-                ViewBag.Message = category.Name + " is Successfully Registered";
+                ORM.Add(category);
+                await ORM.SaveChangesAsync();
+                TempData["Message"] = category.Name + " Successfully added";
                 return RedirectToAction(nameof(Index));
             }
             return View(category);
@@ -83,12 +87,16 @@ namespace ThetaOnlineStore.Controllers
         // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (TempData["Message"] != null)
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+            }
             if (id == null)
             {
                 return NotFound();
             }
 
-            var category = await _context.Category.FindAsync(id);
+            var category = await ORM.Category.FindAsync(id);
             if (category == null)
             {
                 return NotFound();
@@ -112,8 +120,9 @@ namespace ThetaOnlineStore.Controllers
             {
                 try
                 {
-                    _context.Update(category);
-                    await _context.SaveChangesAsync();
+                    ORM.Update(category);
+                    await ORM.SaveChangesAsync();
+                    TempData["Message"] = category.Name + " Successfully added";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -131,39 +140,66 @@ namespace ThetaOnlineStore.Controllers
             return View(category);
         }
 
-        // GET: Categories/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        //GET: Categories/Delete/5
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var category = await ORM.Category
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (category == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(category);
+        //}
+        public string Delete(int id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                Category c = ORM.Category.Find(id);
+
+                if (c != null)
+                {
+                    ORM.Category.Remove(c);
+                    ORM.SaveChanges();
+                    TempData["Message"] = c.Name + "Deleted Successfully";
+                    return "1";
+                }
+            }
+            catch
+            {
+                return "0";
+            }
+            finally
+            {
+
             }
 
-            var category = await _context.Category
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
 
-            return View(category);
+            return "0";
         }
+
 
         // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var category = await _context.Category.FindAsync(id);
-            _context.Category.Remove(category);
-            await _context.SaveChangesAsync();
+            var category = await ORM.Category.FindAsync(id);
+            ORM.Category.Remove(category);
+            await ORM.SaveChangesAsync();
             TempData["Message"] = category.Name + "Deleted Successfully";
             return RedirectToAction(nameof(Index));
         }
 
         private bool CategoryExists(int id)
         {
-            return _context.Category.Any(e => e.Id == id);
+            return ORM.Category.Any(e => e.Id == id);
         }
     }
 }

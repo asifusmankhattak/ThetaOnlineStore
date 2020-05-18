@@ -28,9 +28,12 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table table-bordered table-hover table-striped table-responsive-sm">
+<table class="table table-bordered table-hover table-striped table-responsive-sm" id="myTable">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -58,7 +61,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.ModifiedBy)
             </th>
-            <th>Actions</th>
+            <th>
+                
+                Actions
+            
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -66,67 +73,70 @@
 
         {
             String Statusclass = "";
-            if (item.Status != "active")
+            if (item.Status != "Active")
             {
                 Statusclass = "table-danger";
             }
 
 
-            <tr class="col-md-4 @Statusclass">
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Picture)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ShortDescription)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LongDescription)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreateDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedBy)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ModifiedDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ModifiedBy)
-                </td>
-                <td>
-                    <div>
+        <tr class="col-md-4 @Statusclass">
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Picture)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShortDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LongDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreateDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedBy)
+            </td>
+            <td>
+                <div>
                     <a href="/Categories/Details?id=@item.Id" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
                     <a href="/Categories/Edit?id=@item.Id" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt"></i></a>
                     <a href="" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal-@item.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                        </div>
-                    <div class="modal fade" id="myModal-@item.Id" tabindex="-1" role="dialog" aria-labelledby="myModal-label">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title" id="myModal-label">Alert</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal fade" id="myModal-@item.Id" tabindex="-1" role="dialog" aria-labelledby="myModal-label">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModal-label">Alert</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
-                                </div>
-                                <div class="modal-body">
-                                    <p>Do You Realy Want to delete this categoty-@item.Name</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                    <a href="/Categories/Delete?id=@item.Id" type="button" class="btn btn-primary">Yes Delete</a>
-                                </div>
+                            </div>
+                            <div class="modal-body">
+                                <p>Do You Realy Want to delete this categoty-@item.Name</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                <a href="" data-cid="@item.Id" type="button" class="btn btn-primary deletebutton">Yes Delete</a>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                </td>
-            </tr>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
@@ -136,6 +146,53 @@
         $(function () {
             $('.toast').toast("show");
             $("#ModifiedDate").datepicker();
+             $('#myTable').DataTable();
+              $('.deletebutton').click(function () {
+
+                var dbutton = $(this);
+                var CategoyidToDelete = dbutton.data('cid');
+
+                //alert(UseridToDelete);
+
+
+
+                $.ajax({
+
+                    beforeSend: function () {
+                        dbutton.addClass('disabled');
+                        dbutton.html("<i class='fa fa-trash'></i> Please Wait ...")
+
+                    },
+                    url: '/Categories/Delete',
+                    type: 'GET',
+                    data: {
+                        id: CategoyidToDelete
+                    },
+                    success: function (datareturned) {
+                        if (datareturned == '1') {
+                            // alert('user successfully deleted.');
+                            dbutton.parent().parent().parent().parent().parent().parent().addClass('table-danger').fadeOut(5000);
+                           
+
+                        }
+                        else {
+                            //alert('Could not delete this user.');
+                        }
+
+                    },
+                    error: function (errordetails) {
+                        alert(errordetails);
+                    },
+                    complete: function () {
+                        dbutton.removeClass('disabled');
+                    }
+                                       
+
+                });
+
+
+            });
+
         });
     </script>
 }

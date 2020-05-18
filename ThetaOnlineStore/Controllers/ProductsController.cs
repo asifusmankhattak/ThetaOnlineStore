@@ -11,11 +11,11 @@ namespace ThetaOnlineStore.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly RAMADAN20Context _context;
+        private readonly RAMADAN20Context ORM;
 
         public ProductsController(RAMADAN20Context context)
         {
-            _context = context;
+            ORM = context;
         }
 
         // GET: Products
@@ -28,15 +28,15 @@ namespace ThetaOnlineStore.Controllers
             if (string.IsNullOrEmpty(SearchQuery))
             {
                 //IList<SystemUser> allp = ORM.SystemUser.ToList<SystemUser>();
-                return View(await _context.Product.ToListAsync());
+                return View(await ORM.Product.ToListAsync());
 
             }
             else
             {
-                return View(_context.Product.Where(a => a.Name.Contains(SearchQuery)).ToList<Product>());
+                return View(ORM.Product.Where(a => a.Name.Contains(SearchQuery)).ToList<Product>());
 
             }
-            //  return View(await _context.Category.ToListAsync());
+            //  return View(await ORM.Category.ToListAsync());
         }
 
 
@@ -48,7 +48,7 @@ namespace ThetaOnlineStore.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product
+            var product = await ORM.Product
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
@@ -71,11 +71,15 @@ namespace ThetaOnlineStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,ShortDescription,LongDescription,CurrentStock,CostPrice,SalePrice,Images,ProductCode,Status,OpeningStock,OpeningDate,ProductFeatures,CreatedBy")] Product product)
         {
+            if (TempData["Message"] != null)
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+            }
             if (ModelState.IsValid)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
-                ViewBag.Message = product.Name + " is Successfully Registered";
+                ORM.Add(product);
+                await ORM.SaveChangesAsync();
+                TempData["Message"] =product.Name + " Successfully added";
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
@@ -89,7 +93,7 @@ namespace ThetaOnlineStore.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Product.FindAsync(id);
+            var product = await ORM.Product.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
@@ -104,6 +108,10 @@ namespace ThetaOnlineStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,ShortDescription,LongDescription,CurrentStock,CostPrice,SalePrice,Images,ProductCode,Status,OpeningStock,OpeningDate,ProductFeatures,CreatedBy")] Product product)
         {
+            if (TempData["Message"] != null)
+            {
+                ViewBag.Message = TempData["Message"].ToString();
+            }
             if (id != product.Id)
             {
                 return NotFound();
@@ -113,8 +121,9 @@ namespace ThetaOnlineStore.Controllers
             {
                 try
                 {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
+                    ORM.Update(product);
+                    await ORM.SaveChangesAsync();
+                    TempData["Message"] = product.Name + "updated Successfully";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -133,21 +142,48 @@ namespace ThetaOnlineStore.Controllers
         }
 
         // GET: Products/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var product = await ORM.Product
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (product == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(product);
+        //}
+        //GET: Products/Delete/5
+        public string Delete(int id)
         {
-            if (id == null)
+            try
             {
-                return NotFound();
+                Product p = ORM.Product.Find(id);
+
+                if (p != null)
+                {
+                    ORM.Product.Remove(p);
+                    ORM.SaveChanges();
+                    TempData["Message"] = p.Name + "Deleted Successfully";
+                    return "1";
+                }
+            }
+            catch
+            {
+                return "0";
+            }
+            finally
+            {
+
             }
 
-            var product = await _context.Product
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
 
-            return View(product);
+            return "0";
         }
 
         // POST: Products/Delete/5
@@ -155,16 +191,16 @@ namespace ThetaOnlineStore.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Product.FindAsync(id);
-            _context.Product.Remove(product);
-            await _context.SaveChangesAsync();
+            var product = await ORM.Product.FindAsync(id);
+            ORM.Product.Remove(product);
+            await ORM.SaveChangesAsync();
             TempData["Message"] = product.Name + "Deleted Successfully";
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProductExists(int id)
         {
-            return _context.Product.Any(e => e.Id == id);
+            return ORM.Product.Any(e => e.Id == id);
         }
     }
 }
