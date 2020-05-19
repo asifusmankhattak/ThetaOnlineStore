@@ -27,7 +27,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table table-bordered table-hover table-striped table-responsive-sm"  id="myTable">
+<table class="table table-bordered table-hover table-striped table-responsive-sm" id="myTable">
     <thead>
         <tr>
             <th>
@@ -85,86 +85,132 @@
             }
 
 
-        <tr class="col-md-4 @Statusclass">
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
+            <tr class="col-md-4 @Statusclass">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
 
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ShortDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LongDescription)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CurrentStock)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CostPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SalePrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Images)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OpeningStock)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OpeningDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductFeatures)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedBy)
-            </td>
-            <td>
-                <a href="/Products/Details?id=@item.Id" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
-                <a href="/Products/Edit?id=@item.Id" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt"></i></a>
-                <a href="" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal-@item.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShortDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LongDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CurrentStock)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CostPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SalePrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Images)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OpeningStock)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OpeningDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductFeatures)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                </td>
+                <td>
+                    <a href="/Products/Details?id=@item.Id" class="btn btn-success btn-sm"><i class="fas fa-eye"></i></a>
+                    <a href="/Products/Edit?id=@item.Id" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt"></i></a>
+                    <a href="" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal-@item.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
 
-                <div class="modal fade" id="myModal-@item.Id" tabindex="-1" role="dialog" aria-labelledby="myModal-label">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title" id="myModal-label">Alert</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <div class="modal fade" id="myModal-@item.Id" tabindex="-1" role="dialog" aria-labelledby="myModal-label">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModal-label">Alert</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
-                            </div>
-                            <div class="modal-body">
-                                <p>Do You Realy Want to delete this categoty-@item.Name</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                <a href="#" data-pid="@item.Id" type="button" class="btn btn-primary deletebutton">Yes Delete</a>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Do You Realy Want to delete this categoty-@item.Name</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                    <a href="#" data-pid="@item.Id" type="button" class="btn btn-primary deletebutton">Yes Delete</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-            </td>
-        </tr>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
+<div class="row" id="myCard">
+@foreach (Product p in Model)
+{
+    <div class="col-md-6">
+        <div class="card mb-4 border-primary">
+            <div class="card-header">
+
+                <div class="row">
+                    <div class="col-md-10">
+                        <h4 class="card-title">@p.Name</h4>
+                    </div>
+                    <div class="col-md-2">
+                        <span class="badge badge-success float-right">@p.Id</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="http://lorempixel.com/500/500/" alt="Alternate Text" class="img-fluid img-thumbnail" />
+
+                    </div>
+                    <div class="col-md-8">
+                        <p class="card-text">
+                            @p.ShortDescription
+                        </p>
+                        <p class="card-text">
+                            @p.LongDescription
+                        </p>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="card-footer text-center">
+                <a href="/Category/Detail?Id=@p.Id" class="btn btn-success btn-sm"><i class="fa fa-eye"></i> </a>
+                <a href="/Category/Edit?Id=@p.Id" class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i> </a>
+                <a href="/Category/Delete?Id=@p.Id" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>  </a>
+
+            </div>
+        </div>
+    </div>
+}
+</div>
 @section Scripts{
 
     <script>
         $(function () {
             $('.toast').toast("show");
             $("#ModifiedDate").datepicker();
-             $('.deletebutton').click(function () {
+            $('.deletebutton').click(function () {
 
                 var dbutton = $(this);
                 var ProductidToDelete = dbutton.data('pid');

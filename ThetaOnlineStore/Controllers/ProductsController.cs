@@ -204,7 +204,7 @@ namespace ThetaOnlineStore.Controllers
         }
         public IActionResult LoadAd1()
         {
-
+            System.Threading.Thread.Sleep(10000);
 
             return View("Index"); 
         }
