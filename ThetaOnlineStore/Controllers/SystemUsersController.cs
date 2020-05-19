@@ -201,6 +201,13 @@ namespace ThetaOnlineStore.Controllers
             HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
+        public int LoadAd1()
+        {
+            IList<SystemUser> p = ORM.SystemUser.ToList();
 
+
+
+            return p.Count();
+        }
     }
 }

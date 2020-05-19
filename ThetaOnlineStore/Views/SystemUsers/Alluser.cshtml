@@ -4,30 +4,33 @@
     ViewData["Title"] = "Alluser";
 }
 
-<h1>Total Users: @Model.Count()</h1>
+<div class="badge align-items-center badge-success">
+    <h1> All Users:<span class="badge badge-success" id="myuser"></span></h1>
+</div>
+<hr />
 <form action="/SystemUsers/Alluser" method="post">
     <input type="text" name="SearchQuery" id="SearchQuery" value="" />
-    <input type="submit"value="Search" class="btn btn-success fa fa-search"/>
+    <input type="submit" value="Search" class="btn btn-success fa fa-search" />
 </form>
 
 @if (!string.IsNullOrEmpty(ViewBag.Message))
 {
-<div class="toast" data-delay="10000">
-    <div class="toast-header">
-        <strong class="mr-auto">Alert!</strong>
-        <small>1 Record</small>
-        <button class="ml-2 mb-1 close" aria-label="Close" type="button" data-dismiss="toast">
-            <span aria-hidden="true">×</span>
-        </button>
+    <div class="toast" data-delay="10000">
+        <div class="toast-header">
+            <strong class="mr-auto">Alert!</strong>
+            <small>1 Record</small>
+            <button class="ml-2 mb-1 close" aria-label="Close" type="button" data-dismiss="toast">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="toast-body">
+            Record is Succeffully Deleted
+        </div>
     </div>
-    <div class="toast-body">
-       Record is Succeffully Deleted
-    </div>
-</div>
 }
 
 
-<div class="row"  >
+<div class="row">
     <table class="table table-bordered table-hover table-striped table-responsive-sm" id="myTable">
         <thead>
             <tr>
@@ -56,17 +59,17 @@
                     Role
                 </th>
                 @*<th>
-                    CreateDate
-                </th>
-                <th>
-                    CreatedBy
-                </th>
-                <th>
-                    ModifiedDate
-                </th>
-                <th>
-                    ModifiedBy
-                </th>*@
+                        CreateDate
+                    </th>
+                    <th>
+                        CreatedBy
+                    </th>
+                    <th>
+                        ModifiedDate
+                    </th>
+                    <th>
+                        ModifiedBy
+                    </th>*@
                 <th>Actions</th>
             </tr>
         </thead>
@@ -80,72 +83,72 @@
                 }
 
 
-            <tr class="col-md-4 @Statusclass">
-                <td>
-                    @Html.DisplayFor(modelItem => user.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => user.UserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => user.Password)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => user.DisplayName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => user.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => user.Mobile)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => user.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => user.Role)
-                </td>
-                @*<td>
-            @Html.DisplayFor(modelItem => user.CreateDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => user.CreatedBy)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => user.ModifiedDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => user.ModifiedBy)
-        </td>*@
-            <td>
+                <tr class="col-md-4 @Statusclass">
+                    <td>
+                        @Html.DisplayFor(modelItem => user.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => user.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => user.Password)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => user.DisplayName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => user.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => user.Mobile)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => user.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => user.Role)
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => user.CreateDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => user.CreatedBy)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => user.ModifiedDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => user.ModifiedBy)
+                        </td>*@
+                    <td>
 
-                <a href="Detail?id=@user.Id" class="btn btn-success btn-sm"><i class="fas fa-eye"></i>Details</a>
-                <a href="/SystemUsers/Edit?id=@user.Id" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt"></i>Edit</a>
-                @if (!string.IsNullOrEmpty(Context.Session.GetString("Role")) && Context.Session.GetString("Role") == "Admin")
-                {
-                    <a href="" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal-@user.Id"><i class="fa fa-trash" aria-hidden="true"></i>Delete</a>
-                }
-                    <div class="modal fade" id="myModal-@user.Id" tabindex="-1" role="dialog" aria-labelledby="myModal-label">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title" id="myModal-label">Alert</h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <a href="Detail?id=@user.Id" class="btn btn-success btn-sm"><i class="fas fa-eye"></i>Details</a>
+                        <a href="/SystemUsers/Edit?id=@user.Id" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt"></i>Edit</a>
+                        @if (!string.IsNullOrEmpty(Context.Session.GetString("Role")) && Context.Session.GetString("Role") == "Admin")
+                        {
+                            <a href="" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal-@user.Id"><i class="fa fa-trash" aria-hidden="true"></i>Delete</a>
+                        }
+                        <div class="modal fade" id="myModal-@user.Id" tabindex="-1" role="dialog" aria-labelledby="myModal-label">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="myModal-label">Alert</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
-                                </div>
-                                <div class="modal-body">
-                                    <p>Do You Realy Want to delete this user-@user.UserName</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                    <a href="" data-uid="@user.Id" type="button" class="btn btn-primary deletebutton">Yes Delete</a>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Do You Realy Want to delete this user-@user.UserName</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                        <a href="" data-uid="@user.Id" type="button" class="btn btn-primary deletebutton">Yes Delete</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                </td>
-            </tr>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -157,7 +160,8 @@
             $('.toast').toast("show");
             $("#ModifiedDate").datepicker();
             $('#myTable').DataTable();
-              $('.deletebutton').click(function () {
+            $('#myuser').load('/SystemUsers/LoadAd1');
+            $('.deletebutton').click(function () {
 
                 var dbutton = $(this);
                 var UseridToDelete = dbutton.data('uid');

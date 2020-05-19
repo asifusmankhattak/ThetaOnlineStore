@@ -203,5 +203,14 @@ namespace ThetaOnlineStore.Controllers
         {
             return ORM.Category.Any(e => e.Id == id);
         }
+        public int LoadAd1()
+        {
+            IList<Category> p = ORM.Category.ToList();
+
+
+
+            return p.Count();
+        }
+
     }
 }

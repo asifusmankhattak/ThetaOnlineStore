@@ -202,11 +202,13 @@ namespace ThetaOnlineStore.Controllers
         {
             return ORM.Product.Any(e => e.Id == id);
         }
-        public IActionResult LoadAd1()
+        public int LoadAd1()
         {
-            System.Threading.Thread.Sleep(10000);
+            IList<Product> p = ORM.Product.ToList();
+               
 
-            return View("Index"); 
+
+            return p.Count(); 
         }
 
 

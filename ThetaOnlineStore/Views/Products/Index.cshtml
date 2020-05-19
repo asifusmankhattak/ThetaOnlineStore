@@ -3,8 +3,10 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>All Products: @Model.Count()</h1>
+    <div class="badge align-items-center badge-success">
+        <h1 > All Products:<span class="badge badge-success" id="myproduct"></span></h1>
+    </div>
+<hr />
 <form action="/SystemUsers/Alluser" method="post">
     <input type="text" name="SearchQuery" id="SearchQuery" value="" />
     <input type="submit" value="Search" class="btn btn-success fa fa-search" />
@@ -210,6 +212,7 @@
         $(function () {
             $('.toast').toast("show");
             $("#ModifiedDate").datepicker();
+             $('#myproduct').load('/Products/LoadAd1');
             $('.deletebutton').click(function () {
 
                 var dbutton = $(this);
