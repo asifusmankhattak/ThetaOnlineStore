@@ -120,34 +120,37 @@
                         <td>
                             @Html.DisplayFor(modelItem => user.ModifiedBy)
                         </td>*@
-                    <td>
+                <td>
 
-                        <a href="Detail?id=@user.Id" class="btn btn-success btn-sm"><i class="fas fa-eye"></i>Details</a>
+                    <a href="Detail?id=@user.Id" class="btn btn-success btn-sm"><i class="fas fa-eye"></i>Details</a>
+                    @if (!string.IsNullOrEmpty(Context.Session.GetString("Role")) && Context.Session.GetString("Role") == "Admin"  &&  Context.Session.GetString("Role") == "Staff") {
+
                         <a href="/SystemUsers/Edit?id=@user.Id" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt"></i>Edit</a>
-                        @if (!string.IsNullOrEmpty(Context.Session.GetString("Role")) && Context.Session.GetString("Role") == "Admin")
-                        {
-                            <a href="" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal-@user.Id"><i class="fa fa-trash" aria-hidden="true"></i>Delete</a>
-                        }
-                        <div class="modal fade" id="myModal-@user.Id" tabindex="-1" role="dialog" aria-labelledby="myModal-label">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title" id="myModal-label">Alert</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    }
+                    @if (!string.IsNullOrEmpty(Context.Session.GetString("Role")) && Context.Session.GetString("Role") == "Admin")
+                    {
+                        <a href="" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal-@user.Id"><i class="fa fa-trash" aria-hidden="true"></i>Delete</a>
+                    }
+                    <div class="modal fade" id="myModal-@user.Id" tabindex="-1" role="dialog" aria-labelledby="myModal-label">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModal-label">Alert</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
-                                    </div>
-                                    <div class="modal-body">
-                                        <p>Do You Realy Want to delete this user-@user.UserName</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                                        <a href="" data-uid="@user.Id" type="button" class="btn btn-primary deletebutton">Yes Delete</a>
-                                    </div>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Do You Realy Want to delete this user-@user.UserName</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                                    <a href="" data-uid="@user.Id" type="button" class="btn btn-primary deletebutton">Yes Delete</a>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                    </td>
+                </td>
                 </tr>
             }
         </tbody>
