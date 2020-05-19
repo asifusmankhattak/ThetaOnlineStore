@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ThetaOnlineStore.Models;
 
@@ -17,14 +18,24 @@ namespace ThetaOnlineStore.Controllers
         [HttpGet]
         public IActionResult Register()
         {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                return RedirectToAction("UnAuthroizedAccess");
+            }
             return View();
         }
 
+        public IActionResult UnAuthroizedAccess()
+        {
+            return View();
+        }
         [HttpPost]
         public async Task<IActionResult> Register (SystemUser user)
 
 
         {
+           
+
             if (TempData["Message"] != null)
             {
                 ViewBag.Message = TempData["Message"].ToString();
@@ -153,5 +164,43 @@ namespace ThetaOnlineStore.Controllers
 
 
         }
+        // GET: SystemUsers/Login
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+
+        // POST: SystemUsers/Login
+        [HttpPost]
+        public IActionResult Login(string Username, string Password)
+        {
+
+            SystemUser LoggedInUser = ORM.SystemUser.Where(a => a.UserName == Username && a.Password== Password).FirstOrDefault();
+
+
+            if (LoggedInUser == null)
+            {
+                //for custom error messaging
+                //ViewBag.Message = "Invalid Details";
+
+
+                ModelState.AddModelError("", "Invalid Details, Please try again.");
+                return View();
+            }
+
+            HttpContext.Session.SetString("Role", LoggedInUser.Role);
+            HttpContext.Session.SetString("DisplayName", LoggedInUser.DisplayName);
+
+
+            return RedirectToAction("Alluser");
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login");
+        }
+
     }
 }

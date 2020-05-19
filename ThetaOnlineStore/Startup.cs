@@ -38,6 +38,9 @@ namespace ThetaOnlineStore
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddSession();
+            services.AddDistributedMemoryCache();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,12 +64,13 @@ namespace ThetaOnlineStore
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseSession();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                     pattern: "{controller=SystemUsers}/{action=Login}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
