@@ -9,96 +9,164 @@
 <div>
     <h4>Product Details For ID: @Model.Id</h4>
     <hr />
-    <div class="row">  
+    <div class="row">
         <div class="col-md-4">
             <img src="http://lorempixel.com/500/500/" alt="Alternate Text" class="img-fluid img-thumbnail" />
         </div>
         <div class="col-md-8">
-    <dl class="row">
-        <dt class = "col-sm-3">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-9">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-3">
-            @Html.DisplayNameFor(model => model.ShortDescription)
-        </dt>
-        <dd class = "col-sm-9">
-            @Html.DisplayFor(model => model.ShortDescription)
-        </dd>
-        <dt class = "col-sm-3">
-            @Html.DisplayNameFor(model => model.LongDescription)
-        </dt>
-        <dd class = "col-sm-9">
-            @Html.DisplayFor(model => model.LongDescription)
-        </dd>
-        <dt class = "col-sm-3">
-            @Html.DisplayNameFor(model => model.CurrentStock)
-        </dt>
-        <dd class = "col-sm-9">
-            @Html.DisplayFor(model => model.CurrentStock)
-        </dd>
-        <dt class = "col-sm-3">
-            @Html.DisplayNameFor(model => model.CostPrice)
-        </dt>
-        <dd class = "col-sm-9">
-            @Html.DisplayFor(model => model.CostPrice)
-        </dd>
-        <dt class = "col-sm-3">
-            @Html.DisplayNameFor(model => model.SalePrice)
-        </dt>
-        <dd class = "col-sm-9">
-            @Html.DisplayFor(model => model.SalePrice)
-        </dd>
-        <dt class = "col-sm-3">
-            @Html.DisplayNameFor(model => model.Images)
-        </dt>
-        <dd class = "col-sm-9">
-            @Html.DisplayFor(model => model.Images)
-        </dd>
-        <dt class = "col-sm-3">
-            @Html.DisplayNameFor(model => model.ProductCode)
-        </dt>
-        <dd class = "col-sm-9">
-            @Html.DisplayFor(model => model.ProductCode)
-        </dd>
-        <dt class = "col-sm-3">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class = "col-sm-9">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt class = "col-sm-3">
-            @Html.DisplayNameFor(model => model.OpeningStock)
-        </dt>
-        <dd class = "col-sm-9">
-            @Html.DisplayFor(model => model.OpeningStock)
-        </dd>
-        <dt class = "col-sm-3">
-            @Html.DisplayNameFor(model => model.OpeningDate)
-        </dt>
-        <dd class = "col-sm-9">
-            @Html.DisplayFor(model => model.OpeningDate)
-        </dd>
-        <dt class = "col-sm-3">
-            @Html.DisplayNameFor(model => model.ProductFeatures)
-        </dt>
-        <dd class = "col-sm-9">
-            @Html.DisplayFor(model => model.ProductFeatures)
-        </dd>
-        <dt class = "col-sm-3">
-            @Html.DisplayNameFor(model => model.CreatedBy)
-        </dt>
-        <dd class = "col-sm-9">
-            @Html.DisplayFor(model => model.CreatedBy)
-        </dd>
-    </dl>
-        <div>
+            <dl class="row">
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.ShortDescription)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.ShortDescription)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.LongDescription)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.LongDescription)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.CurrentStock)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.CurrentStock)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.CostPrice)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.CostPrice)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.SalePrice)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.SalePrice)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Images)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Images)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.ProductCode)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.ProductCode)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Status)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Status)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.OpeningStock)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.OpeningStock)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.OpeningDate)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.OpeningDate)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.ProductFeatures)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.ProductFeatures)
+                </dd>
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.CreatedBy)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.CreatedBy)
+                </dd>
+            </dl>
+            <div>
                 <a href="/Products/Edit?id=@Model.Id" class="btn btn-danger btn-sm"><i class="fa fa-pencil" aria-hidden="true"></i>Update</a>
                 <a href="Details?id=@Model.Id" class="btn btn-success btn-sm"><i class="fas fa-eye"></i>Details</a>
                 <a href="Index?id=@Model.Id" class="btn btn-danger btn-sm"><i class="fa fa-search" aria-hidden="true"></i>Back To List</a>
             </div>
         </div>
-</div>
     </div>
+</div>
+<div id="ForAd1">
+</div>
+
+
+    <div class="row">
+       
+            <div class="col-md-6">
+                <div class="card mb-4 border-primary">
+                    <div class="card-header">
+
+                        <div class="row">
+                            <div class="col-md-10">
+                                <h4 class="card-title">@Model.Name</h4>
+                            </div>
+                            <div class="col-md-2">
+                                <span class="badge badge-success float-right">@Model.Id</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+
+
+                            </div>
+                            <div class="col-md-8">
+                                <p class="card-text">
+                                    @Model.ShortDescription
+                                </p>
+                                <p class="card-text">
+                                    @Model.LongDescription
+                                </p>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="/Products/Detail?Id=@Model.Id" class="btn btn-success btn-sm"><i class="fa fa-eye"></i> </a>
+                        <a href="/Products/Edit?Id=@Model.Id" class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i> </a>
+                        <a href="/Products/Delete?Id=@Model.Id" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i>  </a>
+
+                    </div>
+                </div>
+            </div>
+        
+    </div>
+
+
+@section Scripts{
+
+
+    <script>
+        $(function () {
+
+            $('.toast').toast('show');
+
+            $('#MyTable').DataTable();
+
+
+
+            $('#ForAd1').load('/Products/LoadAd1');
+
+        });
+    </script>
+}   

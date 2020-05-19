@@ -202,5 +202,23 @@ namespace ThetaOnlineStore.Controllers
         {
             return ORM.Product.Any(e => e.Id == id);
         }
+        public IActionResult LoadAd1()
+        {
+
+
+            return View("Index"); 
+        }
+
+
+        public string LoadAd2()
+        {
+
+            System.Threading.Thread.Sleep(10000);
+
+            string Ad1 = "<iframe width = '560' height = '315' src = 'https://www.youtube.com/embed/KW-bqPDTY2k' frameborder = '0' allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture' allowfullscreen ></iframe>";
+
+            return Ad1;
+        }
+
     }
 }

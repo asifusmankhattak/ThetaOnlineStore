@@ -185,7 +185,7 @@ namespace ThetaOnlineStore.Controllers
                 //ViewBag.Message = "Invalid Details";
 
 
-                ModelState.AddModelError("", "Invalid Details, Please try again.");
+                ModelState.AddModelError("", "UserName or Password is incorrect.");
                 return View();
             }
 
