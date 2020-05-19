@@ -9,8 +9,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" />
-    <link href="your-path/flat/color-scheme.css" rel="stylesheet">
-    <script src="your-path/icheck.js"></script>
+   
     <style>
         .ui-menu {
             width: 180px;
@@ -19,7 +18,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-success border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-secondary border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ThetaOnlineStore</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -63,8 +62,8 @@
     <div class="container">
         <main role="main" class="pb-3">
             <div class="row">
-                <div class="col-md-3 btn btn-block bg-success">
-                    <ul id="menu" class="bg-success">
+                <div class="col-md-3 btn btn-block bg-secondary">
+                    <ul id="menu" class="bg-secondary">
                         <li class="ui-state-disabled"><div><a>Dashboard</a></div></li>
 
                         <li>
@@ -111,6 +110,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    
     <script>
         $(function () {
             $("#menu").menu();
