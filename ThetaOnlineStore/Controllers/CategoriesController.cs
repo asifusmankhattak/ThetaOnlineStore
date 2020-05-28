@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,10 +15,13 @@ namespace ThetaOnlineStore.Controllers
     public class CategoriesController : Controller
     {
         private readonly RAMADAN20Context ORM;
+  
+        private readonly IHostingEnvironment ENV;
 
-        public CategoriesController(RAMADAN20Context context)
+        public CategoriesController(RAMADAN20Context context,IHostingEnvironment _ENV)
         {
             ORM = context;
+            ENV = _ENV;
         }
 
         // GET: Categories
@@ -69,14 +74,35 @@ namespace ThetaOnlineStore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Picture,Status,ShortDescription,LongDescription,CreateDate,CreatedBy,ModifiedDate,ModifiedBy")] Category category)
+        public async Task<IActionResult> Create([Bind("Id,Name,Picture,Status,ShortDescription,LongDescription,CreateDate,CreatedBy,ModifiedDate,ModifiedBy")] Category category, IFormFile CImage)
         {
+            string FileName = "";
+
+            if (CImage != null)
+            {
+                string FTPFolderPath = ENV.ContentRootPath + "\\wwwroot\\Images\\CategoryImages";
+
+                string FileExt = Path.GetExtension(CImage.FileName);
+
+                FileName = Guid.NewGuid() + FileExt;
+                string FinalFilePath = FTPFolderPath + "\\" + FileName;
+
+
+
+
+
+                FileStream FS = new FileStream(FinalFilePath, FileMode.Create);
+
+                CImage.CopyTo(FS);
+
+            }
             if (TempData["Message"] != null)
             {
                 ViewBag.Message = TempData["Message"].ToString();
             }
             if (ModelState.IsValid)
             {
+                category.Picture = FileName;
                 ORM.Add(category);
                 await ORM.SaveChangesAsync();
                 TempData["Message"] = category.Name + " Successfully added";

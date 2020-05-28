@@ -11,7 +11,15 @@
     <hr />
     <div class="row">
         <div class="col-md-4">
-            <img src="http://lorempixel.com/500/500/" alt="Alternate Text" class="img-fluid img-thumbnail" />
+            @if (string.IsNullOrEmpty(Model.Picture))
+            {
+                <img src="~/Images/CategoryImages/ph.png" class="img-fluid img-thumbnail" />
+            }
+            else
+            {
+                <img src="~/Images/CategoryImages/@Model.Picture" class="img-fluid img-thumbnail" />
+            }
+            
         </div>
 
 

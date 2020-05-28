@@ -123,7 +123,7 @@
                 <td>
 
                     <a href="Detail?id=@user.Id" class="btn btn-success btn-sm"><i class="fas fa-eye"></i>Details</a>
-                    @if (!string.IsNullOrEmpty(Context.Session.GetString("Role")) && Context.Session.GetString("Role") == "Admin"  &&  Context.Session.GetString("Role") == "Staff") {
+                    @if (!string.IsNullOrEmpty(Context.Session.GetString("Role")) && Context.Session.GetString("Role") == "Admin"  ||  Context.Session.GetString("Role") == "Staff") {
 
                         <a href="/SystemUsers/Edit?id=@user.Id" class="btn btn-warning btn-sm"><i class="fas fa-pencil-alt"></i>Edit</a>
                     }
