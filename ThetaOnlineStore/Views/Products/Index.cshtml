@@ -111,7 +111,23 @@
                     @Html.DisplayFor(modelItem => item.SalePrice)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Images)
+                    @{
+                        string[] FirstImage = null;
+                        if (!string.IsNullOrEmpty(item.Images))
+                        {
+                            FirstImage = item.Images.Split(',');
+                        }
+                    }
+                    @if (FirstImage != null)
+                    {
+                        <img src="~/Images/ProductImages/@FirstImage[0]" class="img-fluid img-thumbnail" alt="" />
+                    }
+                    else
+                    {
+                        <img src="~/Images/ProductImages/ph.png"  class="img-fluid img-thumbnail" alt="Alternate Text" />
+                    }
+
+
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ProductCode)

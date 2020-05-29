@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using ThetaOnlineStore.Models;
 
 namespace ThetaOnlineStore.Controllers
@@ -12,10 +15,12 @@ namespace ThetaOnlineStore.Controllers
     public class ProductsController : Controller
     {
         private readonly RAMADAN20Context ORM;
+        private readonly IHostEnvironment ENV;
 
-        public ProductsController(RAMADAN20Context context)
+        public ProductsController(RAMADAN20Context context,IHostEnvironment _ENV)
         {
             ORM = context;
+            ENV = _ENV;
         }
 
         // GET: Products
@@ -69,14 +74,31 @@ namespace ThetaOnlineStore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,ShortDescription,LongDescription,CurrentStock,CostPrice,SalePrice,Images,ProductCode,Status,OpeningStock,OpeningDate,ProductFeatures,CreatedBy")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,Name,ShortDescription,LongDescription,CurrentStock,CostPrice,SalePrice,ProductCode,Status,OpeningStock,OpeningDate,ProductFeatures,CreatedBy")] Product product,IList<IFormFile> PImages)
         {
+            string AllFileNames = "";
+            if (PImages !=null && PImages.Count>0)
+            {
+                
+                foreach(IFormFile PImage in PImages)
+                {
+                    string FolderPath = ENV.ContentRootPath + "//wwwroot//Images//ProductImages//";
+                    string FileName = Guid.NewGuid() + Path.GetExtension(PImage.FileName);
+                    PImage.CopyTo(new FileStream(FolderPath+FileName, FileMode.Create));
+                    AllFileNames += (FileName + ",");
+                }
+            }
+
             if (TempData["Message"] != null)
             {
                 ViewBag.Message = TempData["Message"].ToString();
             }
             if (ModelState.IsValid)
-            {
+            {  if (AllFileNames.Contains(','))
+                {
+                    AllFileNames = AllFileNames.Remove(AllFileNames.LastIndexOf(','));
+                }
+                product.Images = AllFileNames;
                 ORM.Add(product);
                 await ORM.SaveChangesAsync();
                 TempData["Message"] =product.Name + " Successfully added";

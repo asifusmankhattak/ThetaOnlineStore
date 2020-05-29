@@ -10,10 +10,38 @@
     <h4>Product Details For ID: @Model.Id</h4>
     <hr />
     <div class="row">
-        <div class="col-md-4">
-            <img src="http://lorempixel.com/500/500/" alt="Alternate Text" class="img-fluid img-thumbnail" />
+        <div class="col-md-2">
+
+            @if (string.IsNullOrEmpty(Model.Images))
+            {
+                <img src="~/Images/ProductImages/ph.png" alt="Alternate Text" class="img-fluid img-thumbnail smallimage" style="max-width:50px" />
+            }
+            else
+            {
+                string[] AllImages = Model.Images.Split(',');
+        <div>
+            @for (int i = 0; i < AllImages.Length; i++)
+                            {
+
+                                <img src="~/Images/ProductImages/@AllImages[i]" data-imagepath="/Images/ProductImages/@AllImages[i]"  class="img-fluid img-thumbnail mb-2 smallimage" style="max-width:50px" alt="Alternate Text" />
+                                <br />
+                            }
         </div>
-        <div class="col-md-8">
+            }
+        </div>
+        <div class="col-md-4">
+            @if (string.IsNullOrEmpty(Model.Images))
+            {
+                <img id="LargeImage" name="LargeImage" src="~/Images/ProductImages/ph.png" alt="Alternate Text" />
+            }
+            else
+            {
+                string[] AllImages = Model.Images.Split(',');
+           <img id="LargeImage" name="LargeImage"src="~/Images/ProductImages/@AllImages[0]" alt="Alternate Text" />
+                                
+            }
+            </div>
+        <div class="col-md-6">
             <dl class="row">
                 <dt class="col-sm-3">
                     @Html.DisplayNameFor(model => model.Name)
@@ -128,7 +156,11 @@
       
             $("#mydiv").load("/Products/Index #myTable");
             $("#mycard").load("/Products/Index #myCard");
+            $('.smalllimage').click(function () {
+                var imagepath = $(this).data('imagepath');
 
+                $('#LaregImage').attr("src", imagepath);
+            });
            
 
         });
