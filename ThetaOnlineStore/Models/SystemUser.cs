@@ -14,6 +14,7 @@ namespace ThetaOnlineStore.Models
         public string Status { get; set; }
         public string Role { get; set; }
         public DateTime? CreateDate { get; set; }
+        public string CV { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public string ModifiedBy { get; set; }

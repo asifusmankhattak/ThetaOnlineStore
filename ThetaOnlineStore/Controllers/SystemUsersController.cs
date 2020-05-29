@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using HeyRed.Mime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using ThetaOnlineStore.Models;
 
 namespace ThetaOnlineStore.Controllers
@@ -11,9 +14,11 @@ namespace ThetaOnlineStore.Controllers
     public class SystemUsersController : Controller
     {
         RAMADAN20Context ORM = null;
-        public SystemUsersController ( RAMADAN20Context _ORM)
+        private readonly IHostEnvironment ENV;
+        public SystemUsersController ( RAMADAN20Context _ORM, IHostEnvironment _ENV)
         {
             ORM = _ORM;
+            ENV = _ENV;
         }
         [HttpGet]
         public IActionResult Register()
@@ -24,17 +29,39 @@ namespace ThetaOnlineStore.Controllers
             }
             return View();
         }
+        public FileResult DownloadCV(string FN)
+        {
+            string FilePath = ENV.ContentRootPath + "\\wwwroot\\Docs\\CVs\\" + FN;
+            string MimeType = MimeGuesser.GuessMimeType(FilePath);
+            //MIME Type
+
+            //FileStream FS = new FileStream();
+            return File("/Docs/CVs/" + FN, MimeType, Guid.NewGuid() + Path.GetExtension(FN));
+        }
 
         public IActionResult UnAuthroizedAccess()
         {
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Register (SystemUser user)
-
-
+        public async Task<IActionResult> Register (SystemUser user, IFormFile UCV)
         {
-           
+            if (UCV != null)
+            {
+
+                //in bytes
+                if (UCV.Length > 1000)
+                {
+
+                }
+                string FolderPath = ENV.ContentRootPath + "\\wwwroot\\Docs\\CVs\\";
+                string FileName = Guid.NewGuid() + Path.GetExtension(UCV.FileName);
+                FileStream FS = new FileStream(FolderPath + FileName, FileMode.Create); ;
+                UCV.CopyTo(FS);
+                user.CV = FileName;
+            }
+
+
 
             if (TempData["Message"] != null)
             {

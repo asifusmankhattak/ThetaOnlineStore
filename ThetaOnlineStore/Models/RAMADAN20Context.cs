@@ -137,6 +137,10 @@ namespace ThetaOnlineStore.Models
 
                 entity.Property(e => e.DisplayName).HasColumnName("display_name");
 
+                entity.Property(e => e.CV)
+                 .HasColumnName("cv")
+                 .HasMaxLength(200);
+
                 entity.Property(e => e.Email)
                     .HasColumnName("email")
                     .HasMaxLength(50);
