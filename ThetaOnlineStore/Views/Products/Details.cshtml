@@ -14,33 +14,40 @@
 
             @if (string.IsNullOrEmpty(Model.Images))
             {
-                <img src="~/Images/ProductImages/ph.png" alt="Alternate Text" class="img-fluid img-thumbnail smallimage" style="max-width:50px" />
+                <img src="~/Images/ProductImages/ph.jpg" class="img-fluid img-thumbnail SmallImage" style="max-width:50px;" alt="Alternate Text" />
             }
             else
             {
                 string[] AllImages = Model.Images.Split(',');
-        <div>
-            @for (int i = 0; i < AllImages.Length; i++)
-                            {
 
-                                <img src="~/Images/ProductImages/@AllImages[i]" data-imagepath="/Images/ProductImages/@AllImages[i]"  class="img-fluid img-thumbnail mb-2 smallimage" style="max-width:50px" alt="Alternate Text" />
-                                <br />
-                            }
-        </div>
+                <div>
+                    @for (int i = 0; i < AllImages.Length; i++)
+                    {
+                        <img src="~/Images/ProductImages/@AllImages[i]" data-imagepath="/Images/ProductImages/@AllImages[i]" class="img-fluid img-thumbnail mb-2 SmallImage" style="max-width:50px;" alt="Alternate Text" />
+                        <br />
+                    }
+                </div>
             }
         </div>
-        <div class="col-md-4">
+
+        <div class="col-md-4" style="border:1px solid black;">
+
             @if (string.IsNullOrEmpty(Model.Images))
             {
-                <img id="LargeImage" name="LargeImage" src="~/Images/ProductImages/ph.png" alt="Alternate Text" />
+                <img id="LargeImage" name="LargeImage" src="~/Images/ProductImages/ph.jpg" alt="Alternate Text" />
             }
             else
             {
                 string[] AllImages = Model.Images.Split(',');
-           <img id="LargeImage" name="LargeImage"src="~/Images/ProductImages/@AllImages[0]" alt="Alternate Text" />
-                                
+
+                <img id="LargeImage" name="LargeImage" src="~/Images/ProductImages/@AllImages[0]" alt="Alternate Text" />
+
+
             }
-            </div>
+
+
+        </div>
+
         <div class="col-md-6">
             <dl class="row">
                 <dt class="col-sm-3">
@@ -156,11 +163,10 @@
       
             $("#mydiv").load("/Products/Index #myTable");
             $("#mycard").load("/Products/Index #myCard");
-            $('.smalllimage').click(function () {
-                var imagepath = $(this).data('imagepath');
-
-                $('#LaregImage').attr("src", imagepath);
-            });
+          $('.SmallImage').click(function () {
+            var ImagePath = $(this).data('imagepath');
+            $('#LargeImage').attr("src", ImagePath);
+        });
            
 
         });

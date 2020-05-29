@@ -77,14 +77,14 @@ namespace ThetaOnlineStore.Controllers
         public async Task<IActionResult> Create([Bind("Id,Name,ShortDescription,LongDescription,CurrentStock,CostPrice,SalePrice,ProductCode,Status,OpeningStock,OpeningDate,ProductFeatures,CreatedBy")] Product product,IList<IFormFile> PImages)
         {
             string AllFileNames = "";
-            if (PImages !=null && PImages.Count>0)
+            if (PImages != null && PImages.Count > 0)
             {
-                
-                foreach(IFormFile PImage in PImages)
+
+                foreach (IFormFile PImage in PImages)
                 {
-                    string FolderPath = ENV.ContentRootPath + "//wwwroot//Images//ProductImages//";
+                    string FolderPath = ENV.ContentRootPath + "\\wwwroot\\Images\\ProductImages\\";
                     string FileName = Guid.NewGuid() + Path.GetExtension(PImage.FileName);
-                    PImage.CopyTo(new FileStream(FolderPath+FileName, FileMode.Create));
+                    PImage.CopyTo(new FileStream(FolderPath + FileName, FileMode.Create));
                     AllFileNames += (FileName + ",");
                 }
             }
