@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using HeyRed.Mime;
 using Microsoft.AspNetCore.Http;
@@ -70,9 +72,71 @@ namespace ThetaOnlineStore.Controllers
 
             ORM.SystemUser.Add(user);
                 await ORM.SaveChangesAsync();
+
             // ORM.SaveChanges();
             TempData["Message"] = user.UserName + "Successfully Registered";
+            //send welcome email to user
+            MailMessage oEmail = new MailMessage();
 
+            oEmail.From = new MailAddress("asifusmankhattak@gmail.com", "The Students");
+
+            oEmail.To.Add(user.Email);
+            //oEmail.CC.Add("usman@thetasolutions.co.uk");
+            //oEmail.Bcc.Add("");
+
+            oEmail.Subject = "Welcome to Theta Solutions";
+
+            oEmail.Body = "<p><b>Welcome, " +user.DisplayName + ",</b></p><br>" +
+
+                "Thank you for registering your account with Theta.<br>Please find below your account details and keep it safe<br><br>" +
+
+
+                "Username: " + user.UserName + "<br>" +
+                "Password: " + user.Password +
+
+                "<br style='color:red;'>Regards,<br>" +
+                "Support Team";
+
+            ;
+
+            oEmail.IsBodyHtml = true;
+
+            if (System.IO.File.Exists("/Docs/CVs/" + user.CV))
+            {
+                oEmail.Attachments.Add(new Attachment("/Docs/CVs/" + user.CV));
+            }
+
+
+            SmtpClient oSMTP = new SmtpClient();
+            oSMTP.Host = "smtp.gmail.com";
+            oSMTP.Credentials = new System.Net.NetworkCredential("asifusmankhattak@gmail.com", "drinayatasad1234");
+            oSMTP.Port = 587; //25 465
+            oSMTP.EnableSsl = true;
+
+            try
+            {
+                oSMTP.Send(oEmail);
+            }
+            catch (Exception Ex)
+            {
+
+            }
+
+
+            //send sms
+
+            string SMSAPIURL = "https://sendpk.com/api/sms.php?username=923479389419&password=123456&sender=Masking&mobile=" + user.Mobile + "&message=asif khattak";
+
+
+            WebRequest request = HttpWebRequest.Create(SMSAPIURL);
+            WebResponse response = request.GetResponse();
+            StreamReader reader = new StreamReader(response.GetResponseStream());
+            string urlText = reader.ReadToEnd(); // it takes the response from your url. now you can use as your need  
+
+            if (urlText.Contains("OK"))
+            {
+
+            }
 
 
             return View();
