@@ -16,9 +16,9 @@ namespace ThetaOnlineStore.Controllers
     {
         private readonly RAMADAN20Context ORM;
   
-        private readonly IHostingEnvironment ENV;
+        private readonly IWebHostEnvironment ENV;
 
-        public CategoriesController(RAMADAN20Context context,IHostingEnvironment _ENV)
+        public CategoriesController(RAMADAN20Context context, IWebHostEnvironment _ENV)
         {
             ORM = context;
             ENV = _ENV;
@@ -66,9 +66,16 @@ namespace ThetaOnlineStore.Controllers
         // GET: Categories/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                return RedirectToAction("UnAuthroizedAccess");
+            }
             return View();
         }
-
+         public IActionResult UnAuthroizedAccess()
+        {
+            return View();
+        }
         // POST: Categories/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -115,6 +122,10 @@ namespace ThetaOnlineStore.Controllers
         // GET: Categories/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                return RedirectToAction("UnAuthroizedAccess");
+            }
             if (TempData["Message"] != null)
             {
                 ViewBag.Message = TempData["Message"].ToString();

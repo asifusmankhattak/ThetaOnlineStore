@@ -117,9 +117,9 @@ namespace ThetaOnlineStore.Controllers
             {
                 oSMTP.Send(oEmail);
             }
-            catch (Exception Ex)
+            catch 
             {
-
+               
             }
 
 
@@ -223,6 +223,10 @@ namespace ThetaOnlineStore.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                return RedirectToAction("UnAuthroizedAccess");
+            }
             //SystemUsers p= ORM.SystemUsers.FirstOrDefault(abc => abc.Id==id)
             // SystemUsers p1 = ORM.SystemUsers.Find(id
             //SystemUsers p =await ORM.SystemUsers.FindAsync(id);
@@ -299,6 +303,13 @@ namespace ThetaOnlineStore.Controllers
 
 
             return p.Count();
+        }
+
+        [HttpGet]
+        public IActionResult Contacts()
+        {
+           
+            return View();
         }
     }
 }

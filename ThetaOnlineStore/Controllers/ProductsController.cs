@@ -66,6 +66,15 @@ namespace ThetaOnlineStore.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                return RedirectToAction("UnAuthroizedAccess");
+            }
+
+            return View();
+        }
+        public IActionResult UnAuthroizedAccess()
+        {
             return View();
         }
 
@@ -110,6 +119,10 @@ namespace ThetaOnlineStore.Controllers
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                return RedirectToAction("UnAuthroizedAccess");
+            }
             if (id == null)
             {
                 return NotFound();
